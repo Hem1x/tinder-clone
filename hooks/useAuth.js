@@ -12,20 +12,20 @@ const AuthContext = createContext({});
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        setUser(null);
-      } else {
-        setUser(user.email);
-      }
-    });
-  }, []);
+  // useEffect(() => {
+  //   onAuthStateChanged(auth, (user) => {
+  //     if (!user) {
+  //       setUser(null);
+  //     } else {
+  //       setUser(user.email);
+  //     }
+  //   });
+  // }, []);
 
   return (
     <AuthContext.Provider
       value={{
-        user,
+        user: 'alex',
       }}>
       {children}
     </AuthContext.Provider>
