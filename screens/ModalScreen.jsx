@@ -5,6 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  ScrollView,
 } from 'react-native';
 import React, { useLayoutEffect, useState } from 'react';
 import useAuth from '../hooks/useAuth';
@@ -52,7 +53,13 @@ const ModalScreen = () => {
         Welcome, {user && user.email.split('@')[0]}!
       </Text>
 
-      <View style={{ gap: 30, width: '70%', alignItems: 'center' }}>
+      <View
+        style={{
+          gap: 30,
+          width: '70%',
+          alignItems: 'center',
+          marginBottom: 50,
+        }}>
         <View style={{ width: '100%' }}>
           <Text className="text-center p-4 font-bold text-red-400">
             Step 1: The Profile Pic
@@ -102,7 +109,7 @@ const ModalScreen = () => {
             maxLength={2}
             keyboardType="numeric"
             onChangeText={setAge}
-            className="text-center text-base pb-2"
+            className="text-center text-base pb-2 "
             placeholder="Enter your age"
           />
         </View>
@@ -110,7 +117,7 @@ const ModalScreen = () => {
       <TouchableOpacity
         disabled={incompleteForm}
         onPress={updateUserProfile}
-        className={`w-64 p-3 rounded-xl absolute bottom-10 ${
+        className={`w-64 p-3 rounded-xl  ${
           incompleteForm ? 'bg-gray-400' : 'bg-red-400'
         }`}>
         <Text className="text-center text-white text-xl">

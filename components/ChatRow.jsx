@@ -9,6 +9,13 @@ import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import useAuth from '../hooks/useAuth';
 import getMatchedUserInfo from '../lib/getMatchedUserInfo';
+import {
+  collection,
+  onSnapshot,
+  orderBy,
+  query,
+} from 'firebase/firestore';
+import { db } from '../firebaseConfig';
 
 const ChatRow = ({ matchDetails }) => {
   const navigation = useNavigation();
@@ -18,6 +25,20 @@ const ChatRow = ({ matchDetails }) => {
   useEffect(() => {
     setMatchedUserInfo(getMatchedUserInfo(matchDetails.users, user.uid));
   }, [matchDetails, user]);
+
+  const [lastMessage, setLastMessage] = useState('');
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(
+      query(
+        collection(db, 'matches', matchDetails.id, 'messages'),
+        orderBy('timestamp', 'desc'),
+      ),
+      (snapshot) => setLastMessage(snapshot.docs[0]?.data()?.message),
+    );
+
+    return unsubscribe;
+  }, [matchDetails, db]);
 
   return (
     <TouchableOpacity
@@ -32,7 +53,12 @@ const ChatRow = ({ matchDetails }) => {
         source={{ uri: matchedUserInfo?.photoURL }}
         className="rounded-full h-16 w-16 mr-4"
       />
-      <Text>{matchedUserInfo?.name}</Text>
+      <View>
+        <Text className={'text-lg font-semibold'}>
+          {matchedUserInfo?.name}
+        </Text>
+        <Text>{lastMessage || 'Say Hi'}</Text>
+      </View>
     </TouchableOpacity>
   );
 };

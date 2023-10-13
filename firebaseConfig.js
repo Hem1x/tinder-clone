@@ -8,7 +8,7 @@ import { getFirestore } from 'firebase/firestore';
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyAGGVdKyEAJvg45V5FH7YJB4PP7a3rstxo',
+  apiKey: '<API KEY>',
   authDomain: 'atomic-horizon-389117.firebaseapp.com',
   projectId: 'atomic-horizon-389117',
   storageBucket: 'atomic-horizon-389117.appspot.com',
