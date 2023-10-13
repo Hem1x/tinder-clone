@@ -7,6 +7,7 @@ import {
   FlatList,
   TouchableWithoutFeedback,
   Keyboard,
+  TouchableOpacity,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import Header from '../components/Header';
@@ -25,6 +26,7 @@ import {
   serverTimestamp,
 } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
+import { Feather } from '@expo/vector-icons';
 
 const MessagesScreen = () => {
   const { user } = useAuth();
@@ -37,7 +39,7 @@ const MessagesScreen = () => {
     addDoc(collection(db, 'matches', matchDetails.id, 'messages'), {
       timestamp: serverTimestamp(),
       userId: user.uid,
-      displayName: user.displayName,
+      name: user.email,
       photoURL: matchDetails.users[user.uid].photoURL,
       message: input,
     });
@@ -85,19 +87,29 @@ const MessagesScreen = () => {
                 <ReceiverMessage key={message.id} message={message} />
               )
             }
-            className={'pl-4'}
+            className={'px-4'}
           />
         </TouchableWithoutFeedback>
 
-        <View className="flex-row bg-white justify-between items-center border-t border-gray-200 px-5 py-2">
+        <View className="flex-row bg-white justify-between items-center border-t border-gray-200 mt-10">
           <TextInput
-            className="h-10 text-lg"
+            className="h-10 text-lg px-5"
             placeholder="Send Message..."
             onChangeText={setInput}
             onSubmitEditing={sendMessage}
             value={input}
           />
-          <Button title="Send" onPress={sendMessage} color="#FF5864" />
+          <TouchableOpacity title="Send" onPress={sendMessage}>
+            <Feather
+              name="send"
+              size={24}
+              color="white"
+              style={{
+                backgroundColor: '#FF5864',
+                padding: 15,
+              }}
+            />
+          </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
     </Layout>
